@@ -1,10 +1,17 @@
 <template>
   <v-row>
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
       <!-- Activators the dialog page -->
       <template v-slot:activator="{ on }">
         <!-- How does this appear on the screen -->
-        <v-btn color="white" text rounded class="my-2" v-on="on">Contact Us</v-btn>
+        <v-btn color="white" text rounded class="my-2" v-on="on"
+          >Contact Us</v-btn
+        >
       </template>
       <v-card>
         <v-toolbar dark color="primary">
@@ -21,8 +28,19 @@
           <v-list-item>
             <!-- Form to fill in their support queries -->
             <v-form ref="form" v-model="valid" lazy-validation>
-              <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-              <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+              <v-text-field
+                v-model="name"
+                :counter="10"
+                :rules="nameRules"
+                label="Name"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="E-mail"
+                required
+              ></v-text-field>
               <v-select
                 v-model="select"
                 :items="items"
@@ -43,8 +61,9 @@
                   :disabled="!valid"
                   color="success"
                   class="mr-4"
-                  @click="dialog = false, snackbar = true, raiseTicket()"
-                >Send</v-btn>
+                  @click="(dialog = false), (snackbar = true), raiseTicket()"
+                  >Send</v-btn
+                >
               </div>
             </v-form>
           </v-list-item>
@@ -61,7 +80,6 @@
 </template>
 
 <script>
-
 export default {
   name: "contact-us",
   data() {

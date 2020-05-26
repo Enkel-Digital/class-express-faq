@@ -4,9 +4,6 @@
       <v-toolbar color="primary" dark extended flat>
         <v-toolbar-title>Class Express FAQ</v-toolbar-title>
         <v-spacer></v-spacer>
-        <!-- <v-btn to="/login" text>
-          <span class="mr-2">Login</span>
-        </v-btn>-->
       </v-toolbar>
     </v-card>
     <router-view />
