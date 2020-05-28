@@ -1,24 +1,35 @@
 <template>
-  <v-content>
-    <v-app-bar app color="orange lighten-1" flat dark fixed>
-      <BackBtn />
-      <v-toolbar-title>Page Not Found</v-toolbar-title>
-    </v-app-bar>
-
-    <div id="notFound">
-      <br />
-      <p>Oops we are really sorry but the page is not found...</p>
-      <p>You will be redirected back in 3 seconds...</p>
-
-      <br />Go home now?
-      <v-btn :to="{ name: 'home' }">Home</v-btn>
-    </div>
-  </v-content>
+  <v-container>
+    <v-card class="mx-auto" max-width="900" style="margin-top: -64px;">
+      <v-toolbar flat>
+        <v-toolbar-title>Page not Found</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </v-card>
+    <v-card class="mx-auto" outlined flat>
+      <v-list-item three-line>
+        <v-list-item-content>
+          <div class="overline mb-4">Error 404</div>
+          <v-list-item-title class="headline mb-1">Oops!</v-list-item-title>
+          <v-list-item-subtitle
+            >Sorry! The page does not exist...</v-list-item-subtitle
+          >
+          <br />
+          <v-list-item-subtitle
+            >You will be redirected back in 3 seconds...</v-list-item-subtitle
+          >
+        </v-list-item-content>
+      </v-list-item>
+    </v-card>
+    <v-card class="mx-auto" flat>
+      <v-btn :to="{ name: 'home' }" color="blue" text rounded class="my-2"
+        >Return Home</v-btn
+      >
+    </v-card>
+  </v-container>
 </template>
 
 <script>
-// import BackBtn from "@/components/BackBtn";
-
 export default {
   name: "notFound",
   data() {
