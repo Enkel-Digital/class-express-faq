@@ -18,7 +18,6 @@
       <v-card class="mx-auto" outlined flat>
         <v-list-item three-line>
           <v-list-item-content>
-            <!-- <div class="overline mb-4">OVERLINE</div> -->
             <v-list-item-title class="headline mb-1"
               >FAQ Manager</v-list-item-title
             >
@@ -37,7 +36,6 @@
       <v-card class="mx-auto" outlined flat>
         <v-list-item three-line>
           <v-list-item-content>
-            <!-- <div class="overline mb-4">OVERLINE</div> -->
             <v-list-item-title class="headline mb-1"
               >Ticket Support</v-list-item-title
             >
@@ -59,8 +57,8 @@
         </v-card-actions>
       </v-card>
     </v-container>
-  </div> </template
->>
+  </div>
+</template>
 
 <script>
 import logout from "@/controllers/logout";

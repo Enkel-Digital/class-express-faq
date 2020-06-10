@@ -6,8 +6,7 @@ import "./registerServiceWorker";
 import vuetify from "./plugins/vuetify";
 import firebase from "firebase/app";
 import "firebase/auth";
-
-Vue.config.productionTip = false;
+import "firebase/database";
 
 // firebaseConfig auto generated in project settings
 firebase.initializeApp({
@@ -20,6 +19,10 @@ firebase.initializeApp({
   appId: "1:450540745987:web:50751366bbebf172f7e536",
   measurementId: "G-QK9S90EQQN"
 });
+
+export const db = firebase.database();
+
+Vue.config.productionTip = false;
 
 // App variable to store reference to the vue App object
 let app;

@@ -5,8 +5,8 @@
     <!-- Allow for resolving on each ticket -->
     <!-- Resolving of ticket is updated and placed in another tab under "resolved"/log -->
     <!-- Flag is an option, where administrators can "flag" up to devs or business users through email notifications -->
-  </div> </template
->>
+  </div>
+</template>
 
 <script>
 export default {};
