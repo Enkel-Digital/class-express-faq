@@ -39,79 +39,43 @@ exports.CreateFAQDocument = functions.https.onRequest(async (req, res) => {
   if (req.method !== "OPTIONS" && req.method !== "POST")
     return res.status(404).send("Method not supported");
 
-  // get parameter values
-  const newDocument = {
-    question: req.body.question,
-    answer: req.body.answer,
-    category: req.body.category,
-    timestamp: FieldValue.serverTimestamp(),
-  };
-  console.log(req);
-  console.log(newDocument);
-  // Push the new faq into Cloud Firestore using the Firebase Admin SDK.
-  const writeResult = await admin
-    .firestore()
-    .collection("faq")
-    .add(newDocument);
-  // Send back a message that we've succesfully written the message
-  res.json({ result: writeResult.id });
+
+  var writeResult = await admin.firestore().collection("faq").add({
+    question: `${req.body.question}`,
+    answer: `${req.body.answer}`,
+    category: `${req.body.category}`,
+    timestamp: FieldValue.serverTimestamp()
+  });
+  res.json(writeResult.id);
 });
 
 exports.UpdateFAQDocument = functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
-  res.set("Access-Control-Max-Age", "3600");
+  res.set("Access-Control-Allow-Methods", "PUT");
+  res.set("Access-Control-Allow-Headers", "Content-Type");  
+  if (req.method !== "OPTIONS" && req.method !== "PUT")
+    return res.status(404).send("Method not supported");
 
-  // get parameter values
-  const newDocument = {
-    question: req.query.question,
-    answer: req.query.answer,
-    category: req.query.category,
-    timestamp: FieldValue.serverTimestamp(),
-  };
-
-  // get doc reference based on id
-  const documentReference = admin
-    .firestore()
-    .collection("faq")
-    .doc(req.query.id);
-
-  // Set and overwrite a faq into Cloud Firestore using the Firebase Admin SDk.
-  const updateResult = documentReference.get().then(function(doc) {
-    if (doc.exists) {
-      console.log(
-        "Function of update document: document ",
-        doc.data(),
-        "exists!"
-      );
-      doc.update(updatedDocument).then(function() {
-        res.json({ result: `FAQ with ID: ${updateResult.id} update.` });
-      });
-    } else console.log("Function of update document: document does not exist!");
+  var documentReference = admin.firestore().collection("faq").doc(`${req.body.id}`).update({
+    question: `${req.body.question}`,
+    answer: `${req.body.answer}`,
+    category: `${req.body.category}`,
+    timestamp: FieldValue.serverTimestamp()
   });
+    res.json({result: req.body.id});
 });
 
 exports.DeleteFAQDocument = functions.https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
-  res.set("Access-Control-Max-Age", "3600");
+  res.set("Access-Control-Allow-Methods", "DELETE");
+  res.set("Access-Control-Allow-Headers", "*");
+  if (req.method !== "OPTIONS" && req.method !== "DELETE")
+    return res.status(404).send("Method not supported");  
 
-  // get doc reference based on id
-  const documentReference = admin
-    .firestore()
-    .collection("faq")
-    .doc(req.query.id);
+  deleteOperation = admin.firestore().collection("faq").doc(`${req.body.id}`).delete();
 
-  const deleteDocument = documentReference.get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        doc.ref.delete();
-      });
-    });
-  });
-  res.json({ result: `FAQ with ID: ${req.query.id} has been deleted.` });
+  // console.log(req.body.id);
+  res.json({ result: req.body.id});
 });
 
 exports.RaiseTicket = functions.https.onRequest(async (req, res) => {

@@ -73,14 +73,14 @@
               </v-dialog>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:item.actions="{ item }" @click.prevent>
             <v-icon small class="mr-2" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
-            <v-btn color="blue" text rounded class="my-2" @click="initialize"
+            <v-btn color="blue" text rounded class="my-2" @click="initialize()"
               >Reset</v-btn
             >
           </template>
@@ -91,8 +91,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   // Manage FAQs through a GUI
   data: () => ({
@@ -128,31 +126,26 @@ export default {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
     }
   },
-
   created() {
     this.initialize();
   },
   methods: {
     async initialize() {
-      let response = () => {
-        return new Promise(function(resolve) {
-          axios
-            .get(
-              "https://us-central1-class-express-faq-test.cloudfunctions.net/GetAllFAQ"
-            )
-            .then(response => {
-              resolve(response);
-            });
-        });
-      };
-      let responseData = await response();
-      this.faq = responseData.data;
+      const request = new Request(
+        "https://us-central1-class-express-faq-test.cloudfunctions.net/GetAllFAQ",
+        {
+          method: "GET",
+          mode: "cors"
+        }
+      );
+      const result = await fetch(request);
+      const data = await result.json();
+      this.faq = data;
     },
     editItem(item) {
       this.editedIndex = this.faq.indexOf(item);
@@ -160,25 +153,28 @@ export default {
       this.dialog = true;
     },
     async deleteItem(item) {
-      // const index = this.faq.indexOf(item);
-      const faqID = item.id;
-      console.log(faqID);
-      if (confirm("Are you sure you want to delete this item?")) {
-        console.log("confirmed!!!" + faqID);
-        let response = () => {
-          return new Promise(function(resolve) {
-            axios
-              .get(
-                "https://us-central1-class-express-faq-test.cloudfunctions.net/DeleteFAQDocument?id=" +
-                  faqID
-              )
-              .then(response => {
-                resolve(response);
-              });
-          });
+      const index = this.faq.indexOf(item);
+      if (
+        confirm("Are you sure you want to delete this item?") &&
+        this.faq.splice(index, 1)
+      ) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({ id: item.id });
+        var requestOptions = {
+          method: "DELETE",
+          headers: myHeaders,
+          origin: "*",
+          body: raw,
+          redirect: "follow"
         };
-        await response();
-        this.initialize();
+        fetch(
+          "https://us-central1-class-express-faq-test.cloudfunctions.net/DeleteFAQDocument/",
+          requestOptions
+        )
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log("error", error));
       }
     },
     close() {
@@ -189,20 +185,57 @@ export default {
       });
     },
     async save() {
-      console.log(this.editedItem);
-
       if (this.editedIndex > -1) {
         Object.assign(this.faq[this.editedIndex], this.editedItem);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+          id: this.editedItem.id,
+          question: this.editedItem.question,
+          answer: this.editedItem.answer,
+          category: this.editedItem.category
+        });
+        var requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          body: raw,
+          origin: "*",
+          redirect: "follow"
+        };
+        fetch(
+          "https://us-central1-class-express-faq-test.cloudfunctions.net/UpdateFAQDocument/",
+          requestOptions
+        )
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log("error", error));
       } else {
-        console.log(this.editedItem);
-        axios
-          .post(
-            "https://us-central1-class-express-faq-test.cloudfunctions.net/CreateFAQDocument/",
-            this.editedItem
-          )
-          .then(console.log);
+        raw = JSON.stringify({
+          question: this.editedItem.question,
+          answer: this.editedItem.answer,
+          category: this.editedItem.category
+        });
+
+        requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          origin: "*",
+          redirect: "follow"
+        };
+
+        this.editedItem.id = await fetch(
+          "https://us-central1-class-express-faq-test.cloudfunctions.net/CreateFAQDocument/",
+          requestOptions
+        )
+          .then(response => response.text())
+          .then(function(faqID) {
+            console.log(faqID);
+            return faqID;
+          })
+          .catch(error => console.log("error", error));
+        this.faq.push(this.editedItem);
       }
-      this.initialize();
       this.close();
     }
   }

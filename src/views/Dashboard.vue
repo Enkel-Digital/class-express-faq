@@ -15,7 +15,7 @@
           >
         </v-toolbar>
       </v-card>
-      <v-card class="mx-auto" outlined flat>
+      <v-card class="mx-auto" max-width="900" outlined flat>
         <v-list-item three-line>
           <v-list-item-content>
             <v-list-item-title class="headline mb-1"
@@ -33,7 +33,7 @@
           >
         </v-card-actions>
       </v-card>
-      <v-card class="mx-auto" outlined flat>
+      <v-card class="mx-auto" max-width="900" outlined flat>
         <v-list-item three-line>
           <v-list-item-content>
             <v-list-item-title class="headline mb-1"
