@@ -4,7 +4,6 @@
     :items="faq"
     :single-expand="singleExpand"
     :expanded.sync="expanded"
-    item-key="question"
     sort-by="question"
     group-by="category"
     show-expand
@@ -12,13 +11,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>Expandable Table</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-switch
-          v-model="singleExpand"
-          label="Single expand"
-          class="mt-2"
-        ></v-switch>
+        <v-toolbar-title>FAQs Table</v-toolbar-title>
       </v-toolbar>
     </template>
     <template v-slot:expanded-item="{ headers, item }">

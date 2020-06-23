@@ -55,8 +55,6 @@
                 label="I hereby consent to the Class Express Support Team to contacting me at the above given email address."
               ></v-checkbox>
               <div v-if="validate">
-                <!-- @todo fix send here to be disabled when first opened -->
-                <!-- Link to actual function -->
                 <v-btn
                   :disabled="!valid"
                   color="success"
@@ -119,8 +117,27 @@ export default {
       this.$refs.form.validate();
     },
     raiseTicket() {
-      // @todo To implement form submission
-
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        name: this.name,
+        email: this.email,
+        category: this.select
+      });
+      console.log();
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        origin: "*",
+        redirect: "follow"
+      };
+      fetch(
+        "https://us-central1-class-express-faq-test.cloudfunctions.net/RaiseTicket",
+        requestOptions
+      )
+        .then(response => response.text())
+        .catch(error => console.log("error", error));
       return this.reset();
     },
     reset() {
