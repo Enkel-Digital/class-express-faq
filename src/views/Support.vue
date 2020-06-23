@@ -18,56 +18,6 @@
               <v-toolbar-title>Support Cases</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
-              <!-- <v-dialog v-model="dialog" max-width="500px">                
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">{{ formTitle }}</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.name"
-                            label="Dessert name"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.calories"
-                            label="Calories"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.fat"
-                            label="Fat (g)"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.carbs"
-                            label="Carbs (g)"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.protein"
-                            label="Protein (g)"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close"
-                      >Cancel</v-btn
-                    >
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog> -->
             </v-toolbar>
           </template>
           <template v-slot:item.actions="{ item }">
@@ -126,11 +76,9 @@ export default {
       val || this.close();
     }
   },
-
   created() {
     this.initialize();
   },
-
   methods: {
     async initialize() {
       const request = new Request(
@@ -143,13 +91,12 @@ export default {
       const result = await fetch(request);
       const data = await result.json();
       this.supportCases = data;
+      this.TimeStampToDate();
     },
     viewCase(item) {
-      console.log("clicked!");
       this.editedItem = Object.assign({}, item);
       let id = this.editedItem.id;
       this.$router.push({ name: "support-case", params: { caseID: id } });
-      // this.dialog = true;
     },
     close() {
       this.dialog = false;
@@ -165,6 +112,14 @@ export default {
         this.supportCases.push(this.editedItem);
       }
       this.close();
+    },
+    TimeStampToDate() {
+      let temp = this.supportCases;
+      for (var i = 0; i < temp.length; i++) {
+        let d = new Date(temp[i].timestamp._seconds * 1000);
+        temp[i].timestamp = d;
+      }
+      this.supportCases = temp;
     }
   }
 };

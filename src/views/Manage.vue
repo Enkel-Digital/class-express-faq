@@ -102,7 +102,6 @@ export default {
       { text: "Category", value: "category" },
       { text: "Question", value: "question" },
       { text: "Answer", value: "answer" },
-      // { text: "Date", value: "timestamp" },
       { text: "Actions", value: "actions", sortable: false }
     ],
     faq: [],
@@ -170,7 +169,6 @@ export default {
           requestOptions
         )
           .then(response => response.text())
-          .then(result => console.log(result))
           .catch(error => console.log("error", error));
       }
     },
@@ -204,7 +202,6 @@ export default {
           requestOptions
         )
           .then(response => response.text())
-          .then(result => console.log(result))
           .catch(error => console.log("error", error));
       } else {
         raw = JSON.stringify({
@@ -212,7 +209,6 @@ export default {
           answer: this.editedItem.answer,
           category: this.editedItem.category
         });
-
         requestOptions = {
           method: "POST",
           headers: myHeaders,
@@ -220,14 +216,12 @@ export default {
           origin: "*",
           redirect: "follow"
         };
-
         this.editedItem.id = await fetch(
           "https://us-central1-class-express-faq-test.cloudfunctions.net/CreateFAQDocument/",
           requestOptions
         )
           .then(response => response.text())
           .then(function(faqID) {
-            console.log(faqID);
             return faqID;
           })
           .catch(error => console.log("error", error));

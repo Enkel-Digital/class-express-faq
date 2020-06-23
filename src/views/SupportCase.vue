@@ -62,19 +62,12 @@
       <v-list-item three-line>
         <v-list-item-content>
           <v-list-item-title class="headline mb-1"
-            >FAQ Manager</v-list-item-title
+            >Support Chat</v-list-item-title
           >
-          <v-list-item-subtitle
-            >Manage FAQ Content here by editing existing or creating new
-            ones.</v-list-item-subtitle
-          >
+          <v-list-item-subtitle>Chat with customer here</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-card-actions>
-        <v-btn :to="{ name: 'manage' }" color="blue" text rounded class="my-2"
-          >Manage</v-btn
-        >
-      </v-card-actions>
+      <v-card-actions> </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -103,11 +96,9 @@ export default {
         .then(response => response.text())
         .catch(error => console.log("error", error));
       this.supportCase = JSON.parse(this.supportCase);
-      console.log(this.supportCase);
     },
     TimeStampToDate(timeStamp) {
-      // console.log(timeStamp._seconds);
-      return new Date(timeStamp._seconds * 1000); // date object
+      return new Date(timeStamp._seconds * 1000);
     },
     async resolve() {
       var myHeaders = new Headers();
@@ -127,7 +118,6 @@ export default {
         requestOptions
       )
         .then(response => response.text())
-        .then(result => console.log(result))
         .catch(error => console.log("error", error));
       this.supportCase.resolved = "true";
     }
