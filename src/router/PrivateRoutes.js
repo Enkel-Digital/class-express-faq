@@ -32,6 +32,12 @@ const routes = [
     name: "support",
     component: Support,
     meta: { Auth_requirements: AuthType.private }
+  },
+  {
+    path: "/support/case/:caseID",
+    name: "support-case",
+    component: () => import("@/views/SupportCase.vue"),
+    meta: { Auth_requirements: AuthType.private }
   }
 ];
 
