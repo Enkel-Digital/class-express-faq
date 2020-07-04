@@ -8,10 +8,24 @@
     </v-card>
     <router-view />
     <v-footer color="primary lighten-1" padless fixed>
-      <v-row justify="center" no-gutters>
+      <v-row align="center" justify="center" no-gutters>
         <v-spacer></v-spacer>
         <!-- Button that allows for one to raise support tickets -->
         <ContactUs />
+        <!-- Button that shows T&C -->
+        <v-btn
+          :to="{ name: 'termsconditions' }"
+          color="white"
+          text
+          rounded
+          class="my-2"
+        >
+          <!-- <a href="./terms-conditions"> -->
+          T&C
+          <!-- </a> -->
+        </v-btn>
+
+        <v-spacer></v-spacer>
         <!-- Links to our main website/portal -->
         <v-btn
           href="https://class-express.com/"
@@ -24,7 +38,9 @@
           Portal
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
+
         <v-spacer></v-spacer>
+
         <!-- Gets current year for show: 2020 - Class Express -->
         <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
           {{ new Date().getFullYear() }} —

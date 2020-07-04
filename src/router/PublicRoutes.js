@@ -23,6 +23,12 @@ const routes = [
     name: "login",
     component: () => import("@/views/Login.vue"),
     meta: { Auth_requirements: AuthType.public_only }
+  },
+  {
+    path: "/terms-conditions",
+    name: "termsconditions",
+    component: () => import("@/views/TermsConditions.vue"),
+    meta: { Auth_requirements: AuthType.public_only }
   }
 ];
 
