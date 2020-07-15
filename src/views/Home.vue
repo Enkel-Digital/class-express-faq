@@ -3,30 +3,6 @@
     <v-content class="Home">
       <v-container>
         <v-card class="mx-auto" max-width="900" style="margin-top: -64px;">
-          <v-toolbar flat>
-            <v-icon>mdi-magnify</v-icon>
-            <!-- @todo Non functional autocomplete -->
-            <!-- Search bar to look for topic issue -->
-            <v-autocomplete
-              :loading="loading"
-              :items="items"
-              :search-input.sync="searchText"
-              cache-items
-              class="mx-4"
-              hide-no-data
-              hide-details
-              label="Describe your issue"
-              full-width
-              single-line
-              light
-              flat
-              open-on-clear
-              @keypress.enter="search"
-              @collapse="collapseSuggestions"
-              clearable
-            />
-          </v-toolbar>
-          <v-divider></v-divider>
           <!-- @todo Integrate FAQ Provider with autocomplete -->
           <!-- Displays FAQ using tabs and expansion panels, through a component -->
           <FAQProvider />

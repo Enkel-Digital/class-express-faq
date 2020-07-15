@@ -1,23 +1,33 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="faq"
-    :single-expand="singleExpand"
-    :expanded.sync="expanded"
-    sort-by="question"
-    group-by="category"
-    show-expand
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title>FAQs Table</v-toolbar-title>
-      </v-toolbar>
-    </template>
-    <template v-slot:expanded-item="{ headers, item }">
-      <td :colspan="headers.length">More info about {{ item.question }}</td>
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title>
+      FAQs Tables
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+
+    <v-data-table
+      :headers="headers"
+      :items="faq"
+      :single-expand="singleExpand"
+      :expanded.sync="expanded"
+      :search="search"
+      sort-by="question"
+      group-by="category"
+      show-expand
+      class="elevation-1"
+    >
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">More info about {{ item.question }}</td>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -27,6 +37,7 @@ export default {
   name: "faq-provider",
   data() {
     return {
+      search: "",
       expanded: [],
       singleExpand: true,
       headers: [
